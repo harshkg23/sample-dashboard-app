@@ -41,7 +41,7 @@ const stats = [
 export default function Dashboard() {
   return (
     <div data-testid="dashboard-page">
-      {/* BUG: Heading says "Welcome to the Admin Panel" instead of "Dashboard Overview" */}
+      {/* BUG: Heading says "Welcome to your dashboard" instead of "Dashboard Overview" */}
       <h1
         data-testid="dashboard-title"
         className="text-2xl font-bold text-gray-900 mb-6"
