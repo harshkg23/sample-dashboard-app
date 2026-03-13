@@ -52,12 +52,12 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat) => (
           <StatsCard key={stat.testId} {...stat} />
-        ))}
+        ))
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
-          <h2
+          <h2>
             data-testid="activity-title-bug"
             className="text-lg font-semibold text-gray-900 mb-4"
         
