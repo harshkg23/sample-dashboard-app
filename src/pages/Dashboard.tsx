@@ -46,7 +46,7 @@ export default function Dashboard() {
         data-testid="dashboard-title"
         className="text-2xl font-bold text-gray-900 mb-6"
       >
-        Welcome to the Admin Panel
+        Welcome to the Dashboard
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -61,8 +61,8 @@ export default function Dashboard() {
             data-testid="recent-activity-title"
             className="text-lg font-semibold text-gray-900 mb-4"
           >
-            Recent Activity
-          </h2>
+            Recent Home page
+          </h2
           <div className="space-y-4">
             {[
               { user: "Sarah Chen", action: "completed onboarding", time: "2 min ago" },
