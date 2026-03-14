@@ -62,7 +62,7 @@ export default function Dashboard() {
             className="text-lg font-semibold text-gray-900 mb-4"
           >
             Recent Activity
-          </h2
+          </h2>
           <div className="space-y-4">
             {[
               { user: "Sarah Chen", action: "completed onboarding", time: "2 min ago" },
