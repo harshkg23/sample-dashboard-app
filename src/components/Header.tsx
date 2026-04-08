@@ -5,7 +5,7 @@ export default function Header() {
     <header
       data-testid="header"
       className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8"
-    >
+    
       <h2 className="text-lg font-semibold text-gray-800">
         Good morning, <span data-testid="user-greeting">Alex</span>
       </h2>
