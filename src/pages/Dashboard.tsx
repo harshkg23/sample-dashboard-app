@@ -57,8 +57,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
-          <h2>
-            data-testid="activity-title-bug"
+          <h2 data-testid="recent-activity-title">
             className="text-lg font-semibold text-gray-900 mb-4"
         
             Recent Activity
