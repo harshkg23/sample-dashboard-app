@@ -83,7 +83,7 @@ export default function Dashboard() {
         data-testid="dashboard-title"
         className="text-2xl font-bold text-gray-900 mb-6"
       >
-        Dashboard Overview
+        Welcome to the Admin Panel
       </h1>
 
       {searchMsg ? (
@@ -109,7 +109,7 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
           <h2
-            data-testid="activity-title"
+            data-testid="recent-activity-title"
             className="text-lg font-semibold text-gray-900 mb-4"
           >
             Recent Activity
