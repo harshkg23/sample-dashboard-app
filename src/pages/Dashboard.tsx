@@ -83,7 +83,7 @@ export default function Dashboard() {
         data-testid="dashboard-title"
         className="text-2xl font-bold text-gray-900 mb-6"
       >
-        Dashboard Overview
+        Welcome to the Admin Panel
       </h1>
 
       {searchMsg ? (
