@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { LucideIcon } from "lucide-react";
 
 interface StatsCardProps {
@@ -7,6 +8,8 @@ interface StatsCardProps {
   changeType: "positive" | "negative" | "neutral";
   icon: LucideIcon;
   testId?: string;
+  /** TOLLGATE-DEMO: often passed as inline `{}` from parent — bad for reconciliation */
+  style?: CSSProperties;
 }
 
 export default function StatsCard({
@@ -16,6 +19,7 @@ export default function StatsCard({
   changeType,
   icon: Icon,
   testId,
+  style,
 }: StatsCardProps) {
   const changeColor =
     changeType === "positive"
@@ -28,6 +32,7 @@ export default function StatsCard({
     <div
       data-testid={testId}
       className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-md transition-shadow"
+      style={style}
     >
       <div className="flex items-center justify-between mb-4">
         <span className="text-sm font-medium text-gray-500">{title}</span>

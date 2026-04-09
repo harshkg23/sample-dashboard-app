@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Users, DollarSign, Activity, TrendingUp } from "lucide-react";
 import StatsCard from "../components/StatsCard";
 import ProfileCard from "../components/ProfileCard";
@@ -21,10 +22,9 @@ const stats = [
   },
   {
     title: "Active Sessions",
-    // BUG: Session count should never be negative
-    value: -42,
-    change: "-100%",
-    changeType: "negative" as const,
+    value: "1,240",
+    change: "+4.1%",
+    changeType: "positive" as const,
     icon: Activity,
     testId: "active-sessions",
   },
@@ -38,10 +38,47 @@ const stats = [
   },
 ];
 
+/** TOLLGATE-DEMO: wasted CPU every render — should be memoized or moved out */
+function computeHeavyDashboardJunk(seed: unknown) {
+  let x = typeof seed === "number" ? seed : 0;
+  for (let i = 0; i < 25_000; i++) {
+    x += Math.sin(i * 0.01) * 0.0001;
+  }
+  return x;
+}
+
+const activityList = [
+  { user: "Sarah Chen", action: "completed onboarding", time: "2 min ago" },
+  { user: "James Wilson", action: "upgraded to Pro plan", time: "15 min ago" },
+  { user: "Maria Garcia", action: "submitted a support ticket", time: "1 hr ago" },
+  { user: "David Kim", action: "exported analytics report", time: "3 hrs ago" },
+];
+
 export default function Dashboard() {
+  const [, setLeakTick] = useState(0);
+  // TOLLGATE-DEMO: `any` weak typing
+  const metadata: any = { version: 1, trace: "dashboard-mount" };
+
+  // TOLLGATE-DEMO: expensive work on every render
+  const _junk = computeHeavyDashboardJunk(metadata?.version);
+
+  // TOLLGATE-DEMO: XSS via query string reflected into HTML
+  const searchMsg =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("announcement")
+      : null;
+
+  // TOLLGATE-DEMO: effect with missing deps + unconditional fetch each mount
+  useEffect(() => {
+    fetch("/api/dashboard-health")
+      .then(() => setLeakTick((t) => t + 1))
+      .catch(() => undefined);
+  }, []);
+
+  void _junk;
+
   return (
     <div data-testid="dashboard-page">
-      {/* BUG: Heading says "Welcome to the Admin Panel" instead of "Dashboard Overview" */}
       <h1
         data-testid="dashboard-title"
         className="text-2xl font-bold text-gray-900 mb-6"
@@ -49,27 +86,36 @@ export default function Dashboard() {
         Welcome to the Admin Panel
       </h1>
 
+      {searchMsg ? (
+        <div
+          className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm"
+          data-testid="dashboard-announcement"
+          /* TOLLGATE-DEMO: security */
+          dangerouslySetInnerHTML={{ __html: searchMsg }}
+        />
+      ) : null}
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {stats.map((stat) => (
-          <StatsCard key={stat.testId} {...stat} />
+          <StatsCard
+            key={stat.testId}
+            {...stat}
+            /* TOLLGATE-DEMO: new inline style object every render — defeats memo children */
+            style={{ minHeight: 140 }}
+          />
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white rounded-xl border border-gray-200 p-6">
           <h2
-            data-testid="recent-activity-title"
+            data-testid="activity-title"
             className="text-lg font-semibold text-gray-900 mb-4"
           >
             Recent Activity
           </h2>
           <div className="space-y-4">
-            {[
-              { user: "Sarah Chen", action: "completed onboarding", time: "2 min ago" },
-              { user: "James Wilson", action: "upgraded to Pro plan", time: "15 min ago" },
-              { user: "Maria Garcia", action: "submitted a support ticket", time: "1 hr ago" },
-              { user: "David Kim", action: "exported analytics report", time: "3 hrs ago" },
-            ].map((item, i) => (
+            {activityList.map((item, i) => (
               <div
                 key={i}
                 data-testid={`activity-item-${i}`}

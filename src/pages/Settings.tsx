@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 interface ToggleProps {
   label: string;
@@ -39,6 +39,17 @@ export default function Settings() {
   const [emailNotifs, setEmailNotifs] = useState(true);
   const [pushNotifs, setPushNotifs] = useState(false);
   const [analytics, setAnalytics] = useState(true);
+
+  // TOLLGATE-DEMO: unsafe JSON.parse — throws on bad data; no validation
+  const prefsRaw = useMemo(
+    () =>
+      typeof window !== "undefined"
+        ? sessionStorage.getItem("user_prefs_json")
+        : null,
+    []
+  );
+  const prefs = prefsRaw != null ? JSON.parse(prefsRaw) as Record<string, unknown> : null;
+  void prefs;
 
   return (
     <div data-testid="settings-page">
