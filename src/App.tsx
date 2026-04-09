@@ -14,6 +14,7 @@ export default function App() {
         <main className="p-8">
           <Routes>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
           </Routes>
